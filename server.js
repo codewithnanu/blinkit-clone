@@ -2,7 +2,10 @@ require("dotenv").config();
 const express = require("express");
 const connectDB = require("./db");
 const mongoose=require("mongoose");
+
 const authRoutes=require("./src/routes/auth");
+const orderRoutes=require("./src/routes/order");
+const productRoutes=require("./src/routes/product")
 const app = express();
 app.use(express.json());
 
@@ -20,6 +23,8 @@ app.get("/health", async (req, res) => {
 })
 
 app.use("/auth",authRoutes);
+app.use("/orders", orderRoutes);
+app.use("/products",productRoutes);
 
 
 // Wait for DB before accepting ANY requests

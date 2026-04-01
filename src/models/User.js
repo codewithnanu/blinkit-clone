@@ -10,7 +10,8 @@ const userSchema=new Schema({
     
     phone:{type:String,required:true,unique:true},
     password:{type:String,required:true,select:false},
-    role: { type: String,  default: "CONTRACTOR" },
+  role: { type: String, enum: ["CONTRACTOR", "SUPPLIER"], default: "CONTRACTOR" },
+
     companyName:{type:String,required:false},
  
   isActive: { type: Boolean, default: true }
