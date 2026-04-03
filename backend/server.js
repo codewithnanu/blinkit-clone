@@ -2,12 +2,17 @@ require("dotenv").config();
 const express = require("express");
 const connectDB = require("./db");
 const mongoose=require("mongoose");
+const cors = require("cors")
+
+
+
 
 const authRoutes=require("./src/routes/auth");
 const orderRoutes=require("./src/routes/order");
 const productRoutes=require("./src/routes/product")
 const app = express();
 app.use(express.json());
+app.use(cors())
 
 // Lazy DB connection: connect once and reuse across serverless invocations
 let dbConnected = false;
@@ -32,5 +37,10 @@ app.get("/health", async (req, res) => {
 app.use("/auth",authRoutes);
 app.use("/orders", orderRoutes);
 app.use("/products",productRoutes);
+
+app.use((err, req, res, next) => {
+  console.error(err.message);
+  res.status(500).json({ error: err.message });
+});
 
 module.exports=app
