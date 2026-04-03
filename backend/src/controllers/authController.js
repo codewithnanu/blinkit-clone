@@ -5,14 +5,16 @@ const {generateToken}=require("../services/jwtService")
 
 const register = async (req, res) => {
   try {
-    const { name, phone, password } = req.body;
+    const { name, phone, password, role } = req.body;
 
     // step 1: check duplicate phone
 if(await User.findOne({phone:phone})){
    return  res.status(400).json({error:"invalid phone number"})
 }
     // step 2: save user
-await User.create({name: name, phone: phone,password:password});
+const allowedRoles = ["CONTRACTOR", "SUPPLIER"]
+const userRole = allowedRoles.includes(role) ? role : "CONTRACTOR"
+await User.create({name: name, phone: phone, password: password, role: userRole});
 return res.status(201).json({message:"user registered successfully"})
   } catch (err) {
    return res.status(500).json({ error: "Server error" })
