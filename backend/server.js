@@ -12,7 +12,11 @@ const orderRoutes=require("./src/routes/order");
 const productRoutes=require("./src/routes/product")
 const app = express();
 app.use(express.json());
-app.use(cors())
+app.use(cors({
+  origin: "*",
+  allowedHeaders: ["Content-Type", "Authorization"],
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"]
+}))
 
 // Lazy DB connection: connect once and reuse across serverless invocations
 let dbConnected = false;
